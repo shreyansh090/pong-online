@@ -41,8 +41,7 @@ io.on('connection',(socket)=>{
     })
     
     socket.on('update',data =>{
-        
         socket.broadcast.emit('update',data);
-    })
+    });
 
 })

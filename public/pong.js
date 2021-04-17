@@ -1,21 +1,23 @@
 var socket = io();
 
-
 var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
     window.setTimeout(callback, 1000 / 60)
 };
 var canvas = document.createElement("canvas");
-var width = 400;
+var width = 800;
 var height = 600;
 canvas.width = width;
 canvas.height = height;
 var context = canvas.getContext('2d');
 var player = new Player();
 var computer = new Computer();
-var ball = new Ball(200, 300);
+var ball = new Ball(400, 300);
 
 var keysDown = {};
-
+let score1 = 0;
+let score2 = 0;
+let scoreboard1 = document.querySelector('.score1');
+let scoreboard2 = document.querySelector('.score2');
 var render = function () {
 context.fillStyle = "#FF00FF";
 context.fillRect(0, 0, width, height);
@@ -41,7 +43,9 @@ let data = {
     playerx: player.paddle.x,
     playery: player.paddle.y,
     xspeed: player.paddle.x_speed,
-    yspeed: player.paddle.y_speed
+    yspeed: player.paddle.y_speed,
+    score1:score1,
+    score2:score2,
 }
 if(player2)
 {
@@ -58,7 +62,12 @@ socket.on('update',data=>{
     b2.y = data.bally;
     p2.xspeed = data.xspeed;
     p2.yspeed = data.yspeed;
-})
+    if(player2)
+    {
+        score1 = data.score1;
+        score2 = data.score2;
+    }
+});
 if(player1)
 {
     ball.update(player.paddle, computer.paddle);
@@ -67,6 +76,7 @@ if(player1)
     computer.paddle.y = p2.y;
     computer.paddle.x_speed = p2.xspeed;
     computer.paddle.y_speed = p2.yspeed;
+     
 }
 if(player2)
 {
@@ -78,6 +88,9 @@ if(player2)
     ball.x = b2.x;
     ball.y = b2.y;
 }
+scoreboard1.innerHTML = `${score1}`;
+scoreboard2.innerHTML = `${score2}`;
+
 };
 
 var step = function () {
@@ -108,14 +121,14 @@ this.y_speed = y;
 if (this.x < 0) {
     this.x = 0;
     this.x_speed = 0;
-} else if (this.x + this.width > 400) {
-    this.x = 400 - this.width;
+} else if (this.x + this.width > 800) {
+    this.x = 800 - this.width;
     this.x_speed = 0;
 }
 };
 
 function Computer() {
-this.paddle = new Paddle(175, 10, 50, 10);
+this.paddle = new Paddle(355, 10, 90, 10);
 }
 
 Computer.prototype.render = function () {
@@ -133,8 +146,8 @@ Computer.prototype.update = function () {
 // this.paddle.move(diff, 0);
 // if (this.paddle.x < 0) {
 //     this.paddle.x = 0;
-// } else if (this.paddle.x + this.paddle.width > 400) {
-//     this.paddle.x = 400 - this.paddle.width;
+// } else if (this.paddle.x + this.paddle.width > 800) {
+//     this.paddle.x = 800 - this.paddle.width;
 // }
 for (var key in keysDown) {
     var value = Number(key);
@@ -150,7 +163,7 @@ for (var key in keysDown) {
 };
 
 function Player() {
-this.paddle = new Paddle(175, 580, 50, 10);
+this.paddle = new Paddle(355, 580, 90, 10);
 }
 
 Player.prototype.render = function () {
@@ -195,16 +208,24 @@ var bottom_y = this.y + 5;
 if (this.x - 5 < 0) {
     this.x = 5;
     this.x_speed = -this.x_speed;
-} else if (this.x + 5 > 400) {
-    this.x = 395;
+} else if (this.x + 5 > 800) {
+    this.x = 795;
     this.x_speed = -this.x_speed;
 }
+
 if (this.y < 0 || this.y > 600 || b2.y<0 || b2.y>600) {
 
-    
+    if(this.y<0)
+    {
+        score2 += 1;
+    }
+    if(this.y>600)
+    {
+        score1 +=1;
+    }
     this.x_speed = 0;
     this.y_speed = 3;
-    this.x = 200;
+    this.x = 400;
     this.y = 300;
 }
 
@@ -235,31 +256,37 @@ let t = document.querySelector('.t');
 
 document.body.appendChild(canvas);
 let start = document.querySelector('.start');
-let heading = document.querySelector('.heading');
+let status = document.querySelector('.status');
+let heading= document.querySelector('.heading');
+let subheading = document.querySelector('.sub-heading');
 let player1 = false;
 let player2 = false;
+start.disabled = true;
 socket.on('ok',(data)=>{
-   heading.innerHTML = `<p>connected</p>`;
-
+    status.className = 'connected';
+   status.innerHTML = `<p>CONNECTED!</p>`;
+   start.disabled = false;
    if(socket.id == data[0])
    {
-    heading.innerHTML = `<p>player1</p>`;
+    status.innerHTML += `<p>PLAYER 1</p>`;
        player1 = true;
        pleyer2 = false;
    }
    if(socket.id == data[1])
    {
-    heading.innerHTML = `<p>player2</p>`;
+    status.innerHTML += `<p>PLAYER 2</p>`;
        player2= true;
        player1 = false;
    }
 
 })
-
 start.addEventListener('click',()=>{
     socket.emit('start',null);
 })
 socket.on('start',(data)=>{
+   start.remove();
+   subheading.className = 'sub-heading2';
+   heading.className = 'heading2'; 
    animate(step);   
 })
     

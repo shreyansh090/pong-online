@@ -1,11 +1,100 @@
-.square{
-    height:50px;
-    width: 50px;
-    background-color:red;
-    position:absolute;
-    top:0;
-    left:0;
+@font-face {
+    font-family: outline;
+    src: url(fonts/GamePlayedOutline-wrX8.ttf);
 }
+@font-face {
+    font-family: arcade;
+    src: url(fonts/SuperLegendBoy-4w8Y.ttf);
+}
+@font-face {
+    font-family: nunito;
+    src: url(fonts/Nunito-ExtraLight.ttf);
+}
+
 body{
-    color:red;
+    text-align:center;
+    background-color: #0f0518;
+    background-size: cover;
+    color:white;
+}
+.heading{
+    margin-top: 250px;
+    font-family: outline;
+    font-size: 5em; 
+    font-weight:900;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    color:white;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6, 0 0 30px #0073e6, 0 0 35px #0073e6;
+}
+.sub-heading{
+    padding-top:0px;
+    font-family: arcade;
+    color:white;
+    font-size: 1em;  
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6, 0 0 30px #0073e6, 0 0 35px #0073e6;
+}
+.start {
+    margin-top: 10px;
+    padding: 10px 15px;
+    display: inline-block;
+    color: #0a90c5;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 1em;
+    overflow: hidden;
+    font-family:arcade;
+    border-radius: 20px;
+}
+
+/*creating animation effect*/
+.start:hover {
+    color:white;
+    background: #6593f5;
+    box-shadow: 0 0 50px #64a2ff;
+}
+.status{
+    color:white;
+    font-family: arcade;
+}
+.heading2{
+    position: absolute;
+    font-family: outline;
+    left:50px;
+    top:200px;
+    font-size: 5em; 
+    font-weight:900;
+    padding-bottom: 0px;
+    margin-bottom: 0;
+    color:white;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6, 0 0 30px #0073e6, 0 0 35px #0073e6;
+}
+.sub-heading2{
+    padding-top:0px;
+    font-family: arcade;
+    position: absolute;
+    left:50px;
+    top:400px;
+    color:white;
+    font-size: 1em;  
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6, 0 0 30px #0073e6, 0 0 35px #0073e6;
+}
+.connected{
+    color:rgb(99, 252, 99);
+    font-family: arcade;  
+}
+.score1{
+    position: absolute;
+    left:1200px;
+    top:100px;
+    font-family: arcade;
+    font-size:5em;
+}
+.score2{
+    position: absolute;
+    left:1200px;
+    top:580px;
+    font-family: arcade;
+    font-size:5em;
 }
