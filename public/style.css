@@ -89,12 +89,12 @@ body{
     left:1200px;
     top:100px;
     font-family: arcade;
-    font-size:5em;
+    font-size:3em;
 }
 .score2{
     position: absolute;
     left:1200px;
     top:580px;
     font-family: arcade;
-    font-size:5em;
+    font-size:3em;
 }

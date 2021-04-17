@@ -13,14 +13,22 @@ var player = new Player();
 var computer = new Computer();
 var ball = new Ball(400, 300);
 
+
+
 var keysDown = {};
 let score1 = 0;
 let score2 = 0;
 let scoreboard1 = document.querySelector('.score1');
 let scoreboard2 = document.querySelector('.score2');
 var render = function () {
-context.fillStyle = "#FF00FF";
+context.fillStyle = "#FEFCF5";
 context.fillRect(0, 0, width, height);
+context.strokeStyle = "red";
+context.lineWidth = 5;
+context.beginPath();
+context.moveTo(0,300);
+context.lineTo(800,300);
+context.stroke();
 player.render();
 computer.render();
 ball.render();
@@ -109,8 +117,10 @@ this.y_speed = 0;
 }
 
 Paddle.prototype.render = function () {
-context.fillStyle = "#0000FF";
+context.fillStyle = "#09A069";
 context.fillRect(this.x, this.y, this.width, this.height);
+context.fillStyle = "#19F3A4";
+context.fillRect(this.x+3, this.y+3, this.width-6, this.height-6);
 };
 
 Paddle.prototype.move = function (x, y) {
@@ -128,7 +138,7 @@ if (this.x < 0) {
 };
 
 function Computer() {
-this.paddle = new Paddle(355, 10, 90, 10);
+this.paddle = new Paddle(355, 10, 120, 15);
 }
 
 Computer.prototype.render = function () {
@@ -163,7 +173,7 @@ for (var key in keysDown) {
 };
 
 function Player() {
-this.paddle = new Paddle(355, 580, 90, 10);
+this.paddle = new Paddle(355, 580, 120, 15);
 }
 
 Player.prototype.render = function () {
@@ -192,8 +202,12 @@ this.y_speed = 3;
 
 Ball.prototype.render = function () {
 context.beginPath();
+context.arc(this.x,this.y, 7, 2 * Math.PI, false);
+context.fillStyle = "red";
+context.fill();
+context.beginPath();
 context.arc(this.x,this.y, 5, 2 * Math.PI, false);
-context.fillStyle = "#000000";
+context.fillStyle = "white";
 context.fill();
 };
 
@@ -232,6 +246,7 @@ if (this.y < 0 || this.y > 600 || b2.y<0 || b2.y>600) {
 if (top_y > 300) {
     if (top_y < (paddle1.y + paddle1.height) && bottom_y > paddle1.y && top_x < (paddle1.x + paddle1.width) && bottom_x > paddle1.x) {
         this.y_speed = -3;
+
         this.x_speed += (paddle1.x_speed / 2);
         this.y += this.y_speed;
     }
